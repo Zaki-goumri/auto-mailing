@@ -1,21 +1,29 @@
 const express = require("express");
-const bodyParser = require("body-parser");
-const nodemailer = require("nodemailer");
+  const bodyParser = require("body-parser");
+  const nodemailer = require("nodemailer");
+ require("dotenv").config()
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+  const app = express();
+  const PORT = process.env.PORT || 3000;
 
-app.use(bodyParser.json());
+
+  app.use(bodyParser.json());
+
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "zakariagoumri213@gmail.com",
-    pass: "awdb emne rsfu afhd",
+
+
+ 
+const transportOption = {
+  auth:{
+    pass : process.env.EMAIL_PASSWORD,
+    user : process.env.Emai_ADRESS
   },
-});
+  service: process.env.MAIL_SERVICE,
+}
+
+const transporter = nodemailer.createTransport(transportOption);
 
 async function sendApplications(emails) {
   for (const email of emails) {
